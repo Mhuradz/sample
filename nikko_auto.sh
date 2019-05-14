@@ -49,11 +49,7 @@ service php-fpm restart
 service nginx restart
 cp client.ovpn /home/vps/public_html/
 chown -R nginx:nginx /home/vps/public_html
-
-echo ""
-echo ""
-echo " Installation Successful DL mo nlang OVPN mo s http://YOURIP/client.ovpn
-
+echo Installation Successful DL mo nlang OVPN mo s http://YOURIP/client.ovpn
 
 #ok done kau n bahala s iba
 
