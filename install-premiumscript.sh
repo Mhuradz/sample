@@ -1,6 +1,6 @@
 #!/bin/bash
 # Created by http://www.vps-murah.net
-# Modified by Nikkorod
+# Modified by shigeno
 
 cd
 sed -i '$ i\screen -AmdS limit /root/limit.sh' /etc/rc.local
@@ -21,11 +21,11 @@ cat > /root/limit.sh <<END3
 END3
 
 cd /usr/local/bin
-wget -O premium-script.tar.gz "https://github.com/NikkoRod/sample/raw/master/premium-script.tar.gz"
+wget -O premium-script.tar.gz "https://raw.githubusercontent.com/shigeno143/OCSPanelCentos6/master/premium-script.tar.gz"
 tar -xvf premium-script.tar.gz
 rm -f premium-script.tar.gz
 
-cp -r /usr/local/bin/premium-script /usr/local/bin/menu
+cp /usr/local/bin/premium-script /usr/local/bin/menu
 
 chmod +x /usr/local/bin/trial
 chmod +x /usr/local/bin/user-add
@@ -77,6 +77,6 @@ cd
 echo " "
 echo " "
 echo "Premium Script Successfully Update!"
-echo "Modified by Nikkorod"
+echo "Modified by shigeno"
 echo " "
 echo " "
