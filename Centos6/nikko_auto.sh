@@ -181,7 +181,7 @@ service php-fpm restart
 service nginx restart
 
 # install openvpn
-wget -O /etc/openvpn/openvpn.tar "https://rawcdn.githack.com/NikkoRod/sample/d705204e198ebf2196446d0961e7ae67df28e33a/openvpn-centos.tar"
+wget -O /etc/openvpn/openvpn.tar "https://rawcdn.githack.com/NikkoRod/sample/99c4e2700d98766ef91015e799f2194929638ba1/openvpn-centos.tar"
 cd /etc/openvpn/
 tar xf openvpn.tar
 wget -O /etc/openvpn/1194.conf "https://raw.githubusercontent.com/NikkoRod/sample/master/1194-centos.conf"
