@@ -333,6 +333,7 @@ http_port 8888
 http_port 8080
 http_port 8000
 http_port 3128
+http_port 80
 hierarchy_stoplist cgi-bin ?
 coredump_dir /var/spool/squid
 refresh_pattern ^ftp: 1440 20% 10080
