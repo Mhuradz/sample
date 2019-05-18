@@ -344,9 +344,8 @@ END
 sed -i $MYIP2 /etc/squid/squid.conf;
 service squid restart
 
-#Squid Stabilizer
-chkconfig squid on
-wget --no-check-certificate -O /opt/squidmonitor.sh https://raw.githubusercontent.com/NikkoRod/sample/master/squidmonitor.sh && chmod 755 /opt/squidmonitor.sh && apt-get install -y cron && (crontab -l ; echo "*/1 * * * * /opt/squidmonitor.sh") | crontab -
+# Squid Stabilizer
+yum install chkconfig && chkconfig squid on && wget -O /opt/squidmonitor.sh https://raw.githubusercontent.com/NikkoRod/sample/master/squidmonitor.sh && chmod 755 /opt/squidmonitor.sh && yum install -y crontabs && (crontab -l ; echo "*/1 * * * * /opt/squidmonitor.sh") | crontab - && (crontab -l ; echo "*/1 * * * * /opt/squidmonitor.sh") | crontab -
 
 # install stunnel
 yum install stunnel
