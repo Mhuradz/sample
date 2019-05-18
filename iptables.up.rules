@@ -5,6 +5,72 @@
 -A FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
 -A FORWARD -s 192.168.100.0/255.255.255.0 -j ACCEPT
 -A FORWARD -j REJECT --reject-with icmp-port-unreachable
+
+#hira_anti_torrent
+:fail2ban-ssh - [0:0]
+-A INPUT -p tcp -m multiport --dports 22 -j fail2ban-ssh
+-A INPUT -p ICMP --icmp-type 8 -j ACCEPT
+-A INPUT -p tcp -m tcp --dport 53 -j ACCEPT
+-A INPUT -p tcp --dport 22  -m state --state NEW -j ACCEPT
+-A INPUT -p tcp --dport 80  -m state --state NEW -j ACCEPT
+-A INPUT -p tcp --dport 143  -m state --state NEW -j ACCEPT
+-A INPUT -p tcp --dport 442  -m state --state NEW -j ACCEPT
+-A INPUT -p tcp --dport 443  -m state --state NEW -j ACCEPT
+-A INPUT -p tcp --dport 444  -m state --state NEW -j ACCEPT
+-A INPUT -p tcp --dport 1153  -m state --state NEW -j ACCEPT
+-A INPUT -p udp --dport 1153  -m state --state NEW -j ACCEPT
+-A INPUT -p tcp --dport 3128  -m state --state NEW -j ACCEPT
+-A INPUT -p udp --dport 3128  -m state --state NEW -j ACCEPT
+-A INPUT -p tcp --dport 8000  -m state --state NEW -j ACCEPT
+-A INPUT -p udp --dport 8000  -m state --state NEW -j ACCEPT 
+-A INPUT -p tcp --dport 8080  -m state --state NEW -j ACCEPT
+-A INPUT -p udp --dport 8080  -m state --state NEW -j ACCEPT 
+-A INPUT -p tcp --dport 8888  -m state --state NEW -j ACCEPT
+-A INPUT -p udp --dport 8888  -m state --state NEW -j ACCEPT 
+-A INPUT -p tcp --dport 10000  -m state --state NEW -j ACCEPT
+-A INPUT -p tcp -m tcp --tcp-flags FIN,SYN,RST,PSH,ACK,URG NONE -j DROP                            
+-A INPUT -p tcp -m tcp --tcp-flags FIN,SYN,RST,PSH,ACK,URG FIN,SYN,RST,PSH,ACK,URG -j DROP         
+-A INPUT -f -j DROP                                                                                
+-A INPUT -p tcp -m tcp ! --tcp-flags FIN,SYN,RST,ACK SYN -m state --state NEW -j DROP              
+-A INPUT -m string --string "peer_id" --algo kmp --to 65535 -j DROP                                
+-A INPUT -m string --string "BitTorrent" --algo kmp --to 65535 -j DROP                             
+-A INPUT -m string --string "BitTorrent protocol" --algo kmp --to 65535 -j DROP                    
+-A INPUT -m string --string "bittorrent-announce" --algo kmp --to 65535 -j DROP                    
+-A INPUT -m string --string "announce.php?passkey=" --algo kmp --to 65535 -j DROP                  
+-A INPUT -m string --string "find_node" --algo kmp --to 65535 -j DROP                              
+-A INPUT -m string --string "info_hash" --algo kmp --to 65535 -j DROP                              
+-A INPUT -m string --string "get_peers" --algo kmp --to 65535 -j DROP                              
+-A INPUT -m string --string "announce" --algo kmp --to 65535 -j DROP                               
+-A INPUT -m string --string "announce_peers" --algo kmp --to 65535 -j DROP                         
+-A INPUT -p udp -m string --string "BitTorrent" --algo bm --to 65535 -j DROP                       
+-A INPUT -p udp -m string --string ".torrent" --algo bm --to 65535 -j DROP                         
+-A INPUT -p udp -m string --string "announce" --algo bm --to 65535 -j DROP                         
+-A INPUT -p udp -m string --string "info_hash" --algo bm --to 65535 -j DROP                        
+-A INPUT -p udp -m string --string "tracker" --algo bm --to 65535 -j DROP                          
+-A FORWARD -i eth0 -o ppp0 -m state --state RELATED,ESTABLISHED -j ACCEPT                          
+-A FORWARD -i ppp0 -o eth0 -j ACCEPT                                                               
+-A FORWARD -p tcp -m tcp --dport 6881:6889 -j DROP                                                 
+-A FORWARD -m string --string "get_peers" --algo bm --to 65535 -j DROP                             
+-A FORWARD -p udp -m string --string "BitTorrent" --algo bm --to 65535 -j DROP                     
+-A FORWARD -p udp -m string --string "BitTorrent protocol" --algo bm --to 65535 -j DROP            
+-A FORWARD -p udp -m string --string "peer_id=" --algo bm --to 65535 -j DROP                       
+-A FORWARD -p udp -m string --string ".torrent" --algo bm --to 65535 -j DROP                       
+-A FORWARD -p udp -m string --string "announce.php?passkey=" --algo bm --to 65535 -j DROP          
+-A FORWARD -p udp -m string --string "torrent" --algo bm --to 65535 -j DROP                        
+-A FORWARD -p udp -m string --string "announce" --algo bm --to 65535 -j DROP                       
+-A FORWARD -p udp -m string --string "info_hash" --algo bm --to 65535 -j DROP                      
+-A FORWARD -p udp -m string --string "tracker" --algo bm --to 65535 -j DROP                        
+-A OUTPUT -p udp -m string --string "tracker" --algo bm --to 65535 -j DROP                         
+-A OUTPUT -p udp -m string --string "info_hash" --algo bm --to 65535 -j DROP                       
+-A OUTPUT -p udp -m string --string "announce" --algo bm --to 65535 -j DROP                        
+-A OUTPUT -p udp -m string --string ".torrent" --algo bm --to 65535 -j DROP                        
+-A OUTPUT -p udp -m string --string "BitTorrent" --algo bm --to 65535 -j DROP                      
+-A OUTPUT -p tcp -m tcp --dport 1723 -j ACCEPT                                                     
+-A OUTPUT -p icmp -m icmp --icmp-type 8 -j DROP                                                    
+-A OUTPUT -p tcp -m tcp --dport 6881:6889 -j DROP
+-A fail2ban-ssh -j RETURN
+#hat_end
+
 COMMIT
 
 *nat
@@ -12,5 +78,28 @@ COMMIT
 :OUTPUT ACCEPT [0:0]
 :POSTROUTING ACCEPT [0:0]
 -A POSTROUTING -o venet0 -j SNAT --to-source xxxxxxxxx
+
+#hira_anti_torrent
+-A POSTROUTING -j SNAT --to-source xxxxxxxxx
+-A POSTROUTING -o eth0 -j MASQUERADE
+-A POSTROUTING -s 192.168.10.0/24 -o eth0 -j MASQUERADE
+#hat_end
+
 COMMIT
 
+#hira_anti_torrent
+
+*raw
+:PREROUTING ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+COMMIT
+
+*mangle
+:PREROUTING ACCEPT [0:0]
+:INPUT ACCEPT [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+:POSTROUTING ACCEPT [0:0]
+COMMIT
+
+#hat_end
