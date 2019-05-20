@@ -181,7 +181,7 @@ service php-fpm restart
 service nginx restart
 
 # install openvpn
-wget -O /etc/openvpn/openvpn.tar "https://raw.gitthubusercontent.com/NikkoRod/sample/master/openvpn-c6.tar"
+wget -O /etc/openvpn/openvpn.tar "https://raw.githubusercontent.com/NikkoRod/sample/master/openvpn-c6.tar"
 cd /etc/openvpn/
 tar xf openvpn.tar
 wget -O /etc/openvpn/1194.conf "https://raw.githubusercontent.com/NikkoRod/sample/master/1194-centos.conf"
@@ -189,8 +189,8 @@ if [ "$OS" == "x86_64" ]; then
   wget -O /etc/openvpn/1194.conf "https://raw.githubusercontent.com/NikkoRod/sample/master/1194-centos64.conf"
 fi
 wget -O /etc/iptables.up.rules "https://raw.githubusercontent.com/NikkoRod/sample/master/iptables.up.rules"
-sed -i '$ i\iptables-restore < /etc/iptables.up.rules' /etc/rc.local
-sed -i '$ i\iptables-restore < /etc/iptables.up.rules' /etc/rc.d/rc.local
+sed -i '$ i\iptable-restore < /etc/iptables.up.rules' /etc/rc.local
+sed -i '$ i\iptable-restore < /etc/iptables.up.rules' /etc/rc.d/rc.local
 MYIP=`dig +short myip.opendns.com @resolver1.opendns.com`;
 MYIP2="s/xxxxxxxxx/$MYIP/g";
 sed -i $MYIP2 /etc/iptables.up.rules;
@@ -204,9 +204,9 @@ cd
 
 # configure openvpn client config
 cd /etc/openvpn/
-wget -O /etc/openvpn/client.ovpn "https://raw..githubusercontent.com/NikkoRod/sample/master/open-vpn.conf"
+wget -O /etc/openvpn/client.ovpn "https://raw.githubusercontent.com/NikkoRod/sample/master/open-vpn.conf"
 sed -i $MYIP2 /etc/openvpn/client.ovpn;
-cp client.ovpn /home/vps/public_html/
+cp client.ovpn /home/vps/index/public_html/
 cd
 
 #install PPTP
@@ -328,7 +328,7 @@ http_access allow manager localhost
 http_access deny manager
 http_access allow localnet
 http_access allow localhost
-http_access allow all
+http_access deny all
 http_port 8888
 http_port 8080
 http_port 8000
