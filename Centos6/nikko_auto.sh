@@ -42,6 +42,7 @@ sed -i '$ i\echo "nameserver 8.8.4.4" >> /etc/resolv.conf' /etc/rc.d/rc.local
 
 # install wget and curl
 yum -y install wget curl
+yum install wget
 
 # setting repo
 wget http://dl.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm
