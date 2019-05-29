@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #   Squid Monitor
-#   Nikkorod    
+#   RADZVPN  
 
 name=(squidmonitor)
 path=/var/log
